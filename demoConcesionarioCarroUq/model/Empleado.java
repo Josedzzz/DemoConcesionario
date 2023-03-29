@@ -9,15 +9,17 @@ public class Empleado extends Persona {
 	protected String contrasenia;
 	protected String correo;
 	protected String codigoSeguridad;
+	protected boolean cuentaActiva;
 	protected List<Cliente> listaClientes;
 
 	public Empleado(String nombres, String apellidos, String identificacion, String usuario, String contrasenia,
-			String correo, String codigoSeguridad) {
+			String correo, String codigoSeguridad, boolean cuentaActiva) {
 		super(nombres, apellidos, identificacion);
 		this.usuario = usuario;
 		this.contrasenia = contrasenia;
 		this.correo = correo;
 		this.codigoSeguridad = codigoSeguridad;
+		this.cuentaActiva = cuentaActiva;
 		this.listaClientes = new ArrayList<Cliente>();
 	}
 
@@ -63,6 +65,14 @@ public class Empleado extends Persona {
 
 	public void setListaClientes(List<Cliente> listaClientes) {
 		this.listaClientes = listaClientes;
+	}
+
+	public boolean isCuentaActiva() {
+		return cuentaActiva;
+	}
+
+	public void setCuentaActiva(boolean cuentaActiva) {
+		this.cuentaActiva = cuentaActiva;
 	}
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -492,11 +502,10 @@ public class Empleado extends Persona {
 	 * @throws Exception
 	 */
 	public void crearAlquiladaTransaccion(Concesionario concesionario, double total, Vehiculo vehiculoTransaccion,
-			Empleado empleadoTransaccion, Cliente clienteTransaccion, TipoTransaccion tipoTransaccion,
-			boolean pasoRevision, int diasAlquiler) {
+			Empleado empleadoTransaccion, Cliente clienteTransaccion, int diasAlquiler) {
 
-		Transaccion nuevaAlquiladaTransaccion = new Transaccion(total, vehiculoTransaccion, empleadoTransaccion,
-				clienteTransaccion, tipoTransaccion, pasoRevision, diasAlquiler);
+		Transaccion nuevaAlquiladaTransaccion = new Alquiler(total, vehiculoTransaccion, empleadoTransaccion,
+				clienteTransaccion, diasAlquiler);
 		concesionario.getListaTransacciones().add(nuevaAlquiladaTransaccion);
 	}
 
@@ -514,11 +523,11 @@ public class Empleado extends Persona {
 	 * @param diasAlquiler
 	 */
 	public void venderVehículoTransaccion(Concesionario concesionario, double total, Vehiculo vehiculoTransaccion,
-			Empleado empleadoTransaccion, Cliente clienteTransaccion, TipoTransaccion tipoTransaccion,
-			boolean pasoRevision, int diasAlquiler) {
+			Empleado empleadoTransaccion, Cliente clienteTransaccion, String fecha) {
 
-		Transaccion nuevaVentaTransaccion = new Transaccion(total, vehiculoTransaccion, empleadoTransaccion,
-				clienteTransaccion, tipoTransaccion, pasoRevision, diasAlquiler);
+
+		Transaccion nuevaVentaTransaccion = new Venta(total, vehiculoTransaccion, empleadoTransaccion,
+				clienteTransaccion, fecha);
 		concesionario.getListaTransacciones().add(nuevaVentaTransaccion);
 		concesionario.getListaVehiculos().remove(vehiculoTransaccion); //Tengo que eliminar el vehículo que se vendio
 	}
@@ -538,14 +547,13 @@ public class Empleado extends Persona {
 	 * @throws Exception
 	 */
 	public void comprarVehiculoTransaccion(Concesionario concesionario, double total, Vehiculo vehiculoTransaccion,
-			Empleado empleadoTransaccion, Cliente clienteTransaccion, TipoTransaccion tipoTransaccion,
-			boolean pasoRevision, int diasAlquiler) throws Exception {
+			Empleado empleadoTransaccion, Cliente clienteTransaccion, boolean pasoRevision) throws Exception {
 
 		if(pasoRevision == false) {
 			throw new Exception("No se puede comprar el vehículo, no cumple con la revisión");
 		} else {
-			Transaccion nuevaCompraTransaccion = new Transaccion(total, vehiculoTransaccion, empleadoTransaccion,
-					clienteTransaccion, tipoTransaccion, pasoRevision, diasAlquiler);
+			Transaccion nuevaCompraTransaccion = new Compra(total, vehiculoTransaccion, empleadoTransaccion,
+					clienteTransaccion, pasoRevision);
 			concesionario.getListaTransacciones().add(nuevaCompraTransaccion);
 			concesionario.getListaVehiculos().add(vehiculoTransaccion); //Tengo que añadir el vehiuclo que se compro
 		}

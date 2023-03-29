@@ -1,25 +1,19 @@
 package demoConcesionarioCarroUq.model;
 
-public class Transaccion {
+public abstract class Transaccion {
 
-	private double total;
-	private Vehiculo vehiculoTransaccion;
-	private Empleado empleadoTransaccion;
-	private Cliente clienteTransaccion;
-	private TipoTransaccion tipoTransaccion;
-	private boolean pasoRevision; //Es por si un cliente desea vender un vehiculo
-	private int diasAlquiler; //Es por si un clietne desea alquilar un vehiculo
+	protected double total;
+	protected Vehiculo vehiculoTransaccion;
+	protected Empleado empleadoTransaccion;
+	protected Cliente clienteTransaccion;
 
 	public Transaccion(double total, Vehiculo vehiculoTransaccion, Empleado empleadoTransaccion,
-			Cliente clienteTransaccion, TipoTransaccion tipoTransaccion, boolean pasoRevision, int diasAlquiler) {
+			Cliente clienteTransaccion) {
 		super();
 		this.total = total;
 		this.vehiculoTransaccion = vehiculoTransaccion;
 		this.empleadoTransaccion = empleadoTransaccion;
 		this.clienteTransaccion = clienteTransaccion;
-		this.tipoTransaccion = tipoTransaccion;
-		this.pasoRevision = pasoRevision;
-		this.diasAlquiler = diasAlquiler;
 	}
 
 	public Transaccion() {
@@ -57,31 +51,6 @@ public class Transaccion {
 	public void setClienteTransaccion(Cliente clienteTransaccion) {
 		this.clienteTransaccion = clienteTransaccion;
 	}
-
-	public TipoTransaccion getTipoTransaccion() {
-		return tipoTransaccion;
-	}
-
-	public void setTipoTransaccion(TipoTransaccion tipoTransaccion) {
-		this.tipoTransaccion = tipoTransaccion;
-	}
-
-	public boolean isPasoRevision() {
-		return pasoRevision;
-	}
-
-	public void setPasoRevision(boolean pasoRevision) {
-		this.pasoRevision = pasoRevision;
-	}
-
-	public int getDiasAlquiler() {
-		return diasAlquiler;
-	}
-
-	public void setDiasAlquiler(int diasAlquiler) {
-		this.diasAlquiler = diasAlquiler;
-	}
-
 
 //-----------------------------------------------------------------------------------------------------------------------
 
