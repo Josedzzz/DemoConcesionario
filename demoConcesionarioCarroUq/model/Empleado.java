@@ -3,6 +3,13 @@ package demoConcesionarioCarroUq.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import demoConcesionarioCarroUq.exceptions.ClienteNoRegistradoException;
+import demoConcesionarioCarroUq.exceptions.ClienteYaExistenteException;
+import demoConcesionarioCarroUq.exceptions.EmpleadoNoActivoException;
+import demoConcesionarioCarroUq.exceptions.VehiculoNoPasoPruebaException;
+import demoConcesionarioCarroUq.exceptions.VehiculoNoRegistradoException;
+import demoConcesionarioCarroUq.exceptions.VehiculoYaExistenteException;
+
 public class Empleado extends Persona {
 
 	protected String usuario;
@@ -114,16 +121,17 @@ public class Empleado extends Persona {
 	 * @param esHibridoLigero
 	 * @throws Exception
 	 */
-	public void registrarMoto(Concesionario concesionario, String codigo, String marca, CondicionVehiculo condicionVehiculo,
-			String modelo, int cambios, int velocidadMax, String cilindraje, TipoVehiculo tipoVehiculo,
-			int minAutinomia, int minCarga, boolean esEnchufable, boolean esHibridoLigero) throws Exception {
+	public void registrarMoto(Concesionario concesionario, String codigo, String marca,
+			CondicionVehiculo condicionVehiculo, String modelo, int cambios, int velocidadMax,
+			TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga, boolean esEnchufable,
+			boolean esHibridoLigero, String cilindraje) throws VehiculoYaExistenteException {
 
 		Vehiculo vehiculoEncontrado = obtenerVehiculo(concesionario, codigo);
 		if(vehiculoEncontrado != null) {
-			throw new Exception("La moto ya existe"); //Podriamos hacer una existenciaMotoException
+			throw new VehiculoYaExistenteException("El vehículo ya existe");
 		} else {
 			Vehiculo nuevaMoto = new Moto(codigo, marca, condicionVehiculo, modelo, cambios, velocidadMax,
-					cilindraje, tipoVehiculo, minAutinomia, minCarga, esEnchufable, esHibridoLigero);
+					tipoVehiculo, minAutinomia, minCarga, esEnchufable, esHibridoLigero, cilindraje);
 			concesionario.getListaVehiculos().add(nuevaMoto);
 		}
 	}
@@ -157,21 +165,24 @@ public class Empleado extends Persona {
 	 * @param tieneAsistenteCarril
 	 * @throws Exception
 	 */
-	public void registrarSedan(Concesionario concesionario, String codigo, String marca, CondicionVehiculo condicionVehiculo,
-			String modelo, int cambios, int velocidadMax, String cilindraje, int numPasajeros, int numPuertas,
+	public void registrarSedan(Concesionario concesionario, String codigo, String marca,
+			CondicionVehiculo condicionVehiculo, String modelo, int cambios, int velocidadMax,
+			TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga, boolean esEnchufable,
+			boolean esHibridoLigero, String cilindraje, int numPasajeros, int numPuertas,
 			boolean tieneAireAcondicionado, boolean tieneCamReversa, int numBolsasAire, boolean tieneABS,
-			TransmisionVehiculo transmisionVehiculo, TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga,
-			boolean esEnchufable, boolean esHibridoLigero, double capacidadMaletero, boolean tieneVelocidadCrucero,
-			boolean tieneSensorColision, boolean tieneSensorCruzado, boolean tieneAsistenteCarril) throws Exception {
+			TransmisionVehiculo transmisionVehiculo, double capacidadMaletero, boolean tieneVelocidadCrucero,
+			boolean tieneSensorColision, boolean tieneSensorCruzado, boolean tieneAsistenteCarril)
+			throws VehiculoYaExistenteException {
 
 		Vehiculo vehiculoEncontrado = obtenerVehiculo(concesionario, codigo);
 		if(vehiculoEncontrado != null) {
-			throw new Exception("El sedán ya existe");
+			throw new VehiculoYaExistenteException("El vehículo ya existe");
 		} else {
-			Vehiculo nuevoSedan = new Sedan(codigo, marca, condicionVehiculo, modelo, cambios, velocidadMax, cilindraje,
-					numPasajeros, numPuertas, tieneAireAcondicionado, tieneCamReversa, numBolsasAire, tieneABS,
-					transmisionVehiculo, tipoVehiculo, minAutinomia, minCarga, esEnchufable, esHibridoLigero,
-					capacidadMaletero, tieneVelocidadCrucero, tieneSensorColision, tieneSensorCruzado, tieneAsistenteCarril);
+			Vehiculo nuevoSedan = new Sedan(codigo, marca, condicionVehiculo, modelo, cambios,
+					velocidadMax, tipoVehiculo, minAutinomia, minCarga, esEnchufable, esHibridoLigero,
+					cilindraje, numPasajeros, numPuertas, tieneAireAcondicionado, tieneCamReversa,
+					numBolsasAire, tieneABS, transmisionVehiculo, capacidadMaletero, tieneVelocidadCrucero,
+					tieneSensorColision, tieneSensorCruzado, tieneAsistenteCarril);
 			concesionario.getListaVehiculos().add(nuevoSedan);
 		}
 	}
@@ -202,20 +213,22 @@ public class Empleado extends Persona {
 	 * @param tiempoPara100km
 	 * @throws Exception
 	 */
-	public void registrarDeportivo(Concesionario concesionario, String codigo, String marca, CondicionVehiculo condicionVehiculo,
-			String modelo, int cambios, int velocidadMax, String cilindraje, int numPasajeros, int numPuertas,
+	public void registrarDeportivo(Concesionario concesionario, String codigo, String marca,
+			CondicionVehiculo condicionVehiculo, String modelo, int cambios, int velocidadMax,
+			TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga, boolean esEnchufable,
+			boolean esHibridoLigero, String cilindraje, int numPasajeros, int numPuertas,
 			boolean tieneAireAcondicionado, boolean tieneCamReversa, int numBolsasAire, boolean tieneABS,
-			TransmisionVehiculo transmisionVehiculo, TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga,
-			boolean esEnchufable, boolean esHibridoLigero, int numCaballosFuerza, double tiempoPara100km) throws Exception {
+			TransmisionVehiculo transmisionVehiculo, int numCaballosFuerza, double tiempoPara100km)
+			throws VehiculoYaExistenteException {
 
 		Vehiculo vehiculoEncontrado = obtenerVehiculo(concesionario, codigo);
 		if(vehiculoEncontrado != null) {
-			throw new Exception("El deportivo ya existe");
+			throw new VehiculoYaExistenteException("El vehículo ya existe");
 		} else {
-			Vehiculo nuevoDeportivo = new Deportivo(codigo, marca, condicionVehiculo, modelo, cambios, velocidadMax,
-					cilindraje, numPasajeros, numPuertas, tieneAireAcondicionado, tieneCamReversa, numBolsasAire,
-					tieneABS, transmisionVehiculo, tipoVehiculo, minAutinomia, minCarga, esEnchufable, esHibridoLigero,
-					numCaballosFuerza, tiempoPara100km);
+			Vehiculo nuevoDeportivo = new Deportivo(codigo, marca, condicionVehiculo, modelo, cambios,
+					velocidadMax, tipoVehiculo, minAutinomia, minCarga, esEnchufable, esHibridoLigero,
+					cilindraje, numPasajeros, numPuertas, tieneAireAcondicionado, tieneCamReversa,
+					numBolsasAire, tieneABS, transmisionVehiculo, numCaballosFuerza, tiempoPara100km);
 			concesionario.getListaVehiculos().add(nuevoDeportivo);
 		}
 	}
@@ -245,20 +258,21 @@ public class Empleado extends Persona {
 	 * @param es4x4
 	 * @throws Exception
 	 */
-	public void registrarCamioneta(Concesionario concesionario, String codigo, String marca, CondicionVehiculo condicionVehiculo,
-			String modelo, int cambios, int velocidadMax, String cilindraje, int numPasajeros, int numPuertas,
+	public void registrarCamioneta(Concesionario concesionario, String codigo, String marca,
+			CondicionVehiculo condicionVehiculo, String modelo, int cambios, int velocidadMax,
+			TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga, boolean esEnchufable,
+			boolean esHibridoLigero, String cilindraje, int numPasajeros, int numPuertas,
 			boolean tieneAireAcondicionado, boolean tieneCamReversa, int numBolsasAire, boolean tieneABS,
-			TransmisionVehiculo transmisionVehiculo, TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga,
-			boolean esEnchufable, boolean esHibridoLigero, boolean es4x4) throws Exception {
+			TransmisionVehiculo transmisionVehiculo, boolean es4x4) throws VehiculoYaExistenteException {
 
 		Vehiculo vehiculoEncontrado = obtenerVehiculo(concesionario, codigo);
 		if(vehiculoEncontrado != null) {
-			throw new Exception("La camioneta ya existe");
+			throw new VehiculoYaExistenteException("El vehículo ya existe");
 		} else {
-			Vehiculo nuevaCamioneta = new Camioneta(codigo, marca, condicionVehiculo, modelo, cambios, velocidadMax,
-					cilindraje, numPasajeros, numPuertas, tieneAireAcondicionado, tieneCamReversa, numBolsasAire,
-					tieneABS, transmisionVehiculo, tipoVehiculo, minAutinomia, minCarga, esEnchufable, esHibridoLigero,
-					es4x4);
+			Vehiculo nuevaCamioneta = new Camioneta(codigo, marca, condicionVehiculo, modelo, cambios,
+					velocidadMax, tipoVehiculo, minAutinomia, minCarga, esEnchufable, esHibridoLigero,
+					cilindraje, numPasajeros, numPuertas, tieneAireAcondicionado, tieneCamReversa,
+					numBolsasAire, tieneABS, transmisionVehiculo, es4x4);
 			concesionario.getListaVehiculos().add(nuevaCamioneta);
 		}
 	}
@@ -289,20 +303,22 @@ public class Empleado extends Persona {
 	 * @param es4x4
 	 * @throws Exception
 	 */
-	public void registrarPickUp(Concesionario concesionario,String codigo, String marca, CondicionVehiculo condicionVehiculo,
-			String modelo, int cambios, int velocidadMax, String cilindraje, int numPasajeros, int numPuertas,
+	public void registrarPickUp(Concesionario concesionario, String codigo, String marca,
+			CondicionVehiculo condicionVehiculo, String modelo, int cambios, int velocidadMax,
+			TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga, boolean esEnchufable,
+			boolean esHibridoLigero, String cilindraje, int numPasajeros, int numPuertas,
 			boolean tieneAireAcondicionado, boolean tieneCamReversa, int numBolsasAire, boolean tieneABS,
-			TransmisionVehiculo transmisionVehiculo, TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga,
-			boolean esEnchufable, boolean esHibridoLigero, double capacidadCajaCarga, boolean es4x4) throws Exception {
+			TransmisionVehiculo transmisionVehiculo, double capacidadCajaCarga, boolean es4x4)
+			throws VehiculoYaExistenteException {
 
 		Vehiculo vehiculoEncontrado = obtenerVehiculo(concesionario, codigo);
 		if(vehiculoEncontrado != null) {
-			throw new Exception("El pickUp ya existe");
+			throw new VehiculoYaExistenteException("El vehículo ya existe");
 		} else {
-			Vehiculo nuevoPickUp = new PickUp(codigo, marca, condicionVehiculo, modelo, cambios, velocidadMax,
-					cilindraje, numPasajeros, numPuertas, tieneAireAcondicionado, tieneCamReversa, numBolsasAire,
-					tieneABS, transmisionVehiculo, tipoVehiculo, minAutinomia, minCarga, esEnchufable, esHibridoLigero,
-					capacidadCajaCarga, es4x4);
+			Vehiculo nuevoPickUp = new PickUp(codigo, marca, condicionVehiculo, modelo, cambios,
+					velocidadMax, tipoVehiculo, minAutinomia, minCarga, esEnchufable, esHibridoLigero,
+					cilindraje, numPasajeros, numPuertas, tieneAireAcondicionado, tieneCamReversa,
+					numBolsasAire, tieneABS, transmisionVehiculo, capacidadCajaCarga, es4x4);
 			concesionario.getListaVehiculos().add(nuevoPickUp);
 		}
 	}
@@ -332,20 +348,21 @@ public class Empleado extends Persona {
 	 * @param capacidadMaletero
 	 * @throws Exception
 	 */
-	public void registrarVan(Concesionario concesionario, String codigo, String marca, CondicionVehiculo condicionVehiculo,
-			String modelo, int cambios, int velocidadMax, String cilindraje, int numPasajeros, int numPuertas,
+	public void registrarVan(Concesionario concesionario,String codigo, String marca, CondicionVehiculo condicionVehiculo, String modelo, int cambios,
+			int velocidadMax, TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga, boolean esEnchufable,
+			boolean esHibridoLigero, String cilindraje, int numPasajeros, int numPuertas,
 			boolean tieneAireAcondicionado, boolean tieneCamReversa, int numBolsasAire, boolean tieneABS,
-			TransmisionVehiculo transmisionVehiculo, TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga,
-			boolean esEnchufable, boolean esHibridoLigero, double capacidadMaletero) throws Exception {
+			TransmisionVehiculo transmisionVehiculo, double capacidadMaletero)
+			throws VehiculoYaExistenteException {
 
 		Vehiculo vehiculoEncontrado = obtenerVehiculo(concesionario,codigo);
 		if(vehiculoEncontrado != null) {
-			throw new Exception("La van ya existe");
+			throw new VehiculoYaExistenteException("El vehículo ya existe");
 		} else {
-			Vehiculo nuevaVan = new Van(codigo, marca, condicionVehiculo, modelo, cambios, velocidadMax, cilindraje,
-					numPasajeros, numPuertas, tieneAireAcondicionado, tieneCamReversa, numBolsasAire, tieneABS,
-					transmisionVehiculo, tipoVehiculo, minAutinomia, minCarga, esEnchufable, esHibridoLigero,
-					capacidadMaletero);
+			Vehiculo nuevaVan = new Van(codigo, marca, condicionVehiculo, modelo, cambios, velocidadMax,
+					tipoVehiculo, minAutinomia, minCarga, esEnchufable, esHibridoLigero, cilindraje,
+					numPasajeros, numPuertas, tieneAireAcondicionado, tieneCamReversa, numBolsasAire,
+					tieneABS, transmisionVehiculo, capacidadMaletero);
 			concesionario.getListaVehiculos().add(nuevaVan);
 		}
 	}
@@ -376,20 +393,22 @@ public class Empleado extends Persona {
 	 * @param numSalidasEmergencia
 	 * @throws Exception
 	 */
-	public void registrarBus(Concesionario concesionario, String codigo, String marca, CondicionVehiculo condicionVehiculo,
-			String modelo, int cambios, int velocidadMax, String cilindraje, int numPasajeros, int numPuertas,
+	public void registrarBus(Concesionario concesionario, String codigo, String marca,
+			CondicionVehiculo condicionVehiculo, String modelo, int cambios, int velocidadMax,
+			TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga, boolean esEnchufable,
+			boolean esHibridoLigero, String cilindraje, int numPasajeros, int numPuertas,
 			boolean tieneAireAcondicionado, boolean tieneCamReversa, int numBolsasAire, boolean tieneABS,
-			TransmisionVehiculo transmisionVehiculo, TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga,
-			boolean esEnchufable, boolean esHibridoLigero, int numEjes, int numSalidasEmergencia) throws Exception {
+			TransmisionVehiculo transmisionVehiculo, int numEjes, int numSalidasEmergencia)
+			throws VehiculoYaExistenteException {
 
 		Vehiculo vehiculoEncontrado = obtenerVehiculo(concesionario,codigo);
 		if(vehiculoEncontrado != null) {
-			throw new Exception("El bus ya existe");
+			throw new VehiculoYaExistenteException("El vehículo ya existe");
 		} else {
-			Vehiculo nuevoBus = new Bus(codigo, marca, condicionVehiculo, modelo, cambios, velocidadMax, cilindraje,
-					numPasajeros, numPuertas, tieneAireAcondicionado, tieneCamReversa, numBolsasAire, tieneABS,
-					transmisionVehiculo, tipoVehiculo, minAutinomia, minCarga, esEnchufable, esHibridoLigero, numEjes,
-					numSalidasEmergencia);
+			Vehiculo nuevoBus = new Bus(codigo, marca, condicionVehiculo, modelo, cambios, velocidadMax,
+					tipoVehiculo, minAutinomia, minCarga, esEnchufable, esHibridoLigero, cilindraje,
+					numPasajeros, numPuertas, tieneAireAcondicionado, tieneCamReversa, numBolsasAire,
+					tieneABS, transmisionVehiculo, numEjes, numSalidasEmergencia);
 			concesionario.getListaVehiculos().add(nuevoBus);
 		}
 	}
@@ -421,21 +440,23 @@ public class Empleado extends Persona {
 	 * @param tipoCamion
 	 * @throws Exception
 	 */
-	public void registrarCamion(Concesionario concesionario, String codigo, String marca, CondicionVehiculo condicionVehiculo,
-			String modelo, int cambios, int velocidadMax, String cilindraje, int numPasajeros, int numPuertas,
+	public void registrarCamion(Concesionario concesionario, String codigo, String marca,
+			CondicionVehiculo condicionVehiculo, String modelo, int cambios, int velocidadMax,
+			TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga, boolean esEnchufable,
+			boolean esHibridoLigero, String cilindraje, int numPasajeros, int numPuertas,
 			boolean tieneAireAcondicionado, boolean tieneCamReversa, int numBolsasAire, boolean tieneABS,
-			TransmisionVehiculo transmisionVehiculo, TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga,
-			boolean esEnchufable, boolean esHibridoLigero, double capacidadCarga, boolean tieneFrenosAire,
+			TransmisionVehiculo transmisionVehiculo, double capacidadCarga, boolean tieneFrenosAire,
 			String tipoCamion) throws Exception {
 
 		Vehiculo vehiculoEncontrado = obtenerVehiculo(concesionario, codigo);
 		if(vehiculoEncontrado != null) {
 			throw new Exception("El camion ya existe");
 		} else {
-			Vehiculo nuevoCamion = new Camion(codigo, marca, condicionVehiculo, modelo, cambios, velocidadMax,
-					cilindraje, numPasajeros, numPuertas, tieneAireAcondicionado, tieneCamReversa, numBolsasAire,
-					tieneABS, transmisionVehiculo, tipoVehiculo, minAutinomia, minCarga, esEnchufable, esHibridoLigero,
-					capacidadCarga, tieneFrenosAire, tipoCamion);
+			Vehiculo nuevoCamion = new Camion(codigo, marca, condicionVehiculo, modelo, cambios,
+					velocidadMax, tipoVehiculo, minAutinomia, minCarga, esEnchufable, esHibridoLigero,
+					cilindraje, numPasajeros, numPuertas, tieneAireAcondicionado, tieneCamReversa,
+					numBolsasAire, tieneABS, transmisionVehiculo, capacidadCarga, tieneFrenosAire,
+					tipoCamion);
 			concesionario.getListaVehiculos().add(nuevoCamion);
 		}
 	}
@@ -474,14 +495,19 @@ public class Empleado extends Persona {
 	 * @throws Exception
 	 */
 	public void crearCliente(Concesionario concesionario, String nombres, String apellidos, String identificacion,
-			String codigoCliente, Empleado empleadoCliente) throws Exception {
+			String codigoCliente, Empleado empleadoCliente)
+			throws ClienteYaExistenteException, EmpleadoNoActivoException {
 
-		Cliente clienteEncontrado = obtenerCliente(concesionario, codigoCliente);
-		if(clienteEncontrado != null) {
-			throw new Exception("El cliente ya existe");
+		if(empleadoCliente.isCuentaActiva()) {
+			Cliente clienteEncontrado = obtenerCliente(concesionario, codigoCliente);
+			if(clienteEncontrado != null) {
+				throw new ClienteYaExistenteException("El cliente ya existe");
+			} else {
+				Persona nuevoCliente = new Cliente(nombres, apellidos, identificacion, codigoCliente, empleadoCliente);
+				concesionario.getListaPersonas().add(nuevoCliente);
+			}
 		} else {
-			Persona nuevoCliente = new Cliente(nombres, apellidos, identificacion, codigoCliente, empleadoCliente);
-			concesionario.getListaPersonas().add(nuevoCliente);
+			throw new EmpleadoNoActivoException("La cuenta del empleado está bloqueada");
 		}
 	}
 
@@ -509,6 +535,29 @@ public class Empleado extends Persona {
 		concesionario.getListaTransacciones().add(nuevaAlquiladaTransaccion);
 	}
 
+	public void crearAlquiladaTransaccion2(Concesionario concesionario, double total, String codigoVehiculo,
+			Empleado empleadoTransaccion, String codigoCliente, int diasAlquiler)
+			throws ClienteNoRegistradoException, VehiculoNoRegistradoException, EmpleadoNoActivoException {
+
+		if(empleadoTransaccion.isCuentaActiva()) {
+			Vehiculo vehiculoAlquiler = obtenerVehiculo(concesionario, codigoVehiculo);
+			Cliente clienteAlquiler = obtenerCliente(concesionario, codigoCliente);
+			if(vehiculoAlquiler != null && clienteAlquiler != null) {
+				Transaccion nuevaAlquiladaTransaccion = new Alquiler(total, vehiculoAlquiler, empleadoTransaccion,
+						clienteAlquiler, diasAlquiler);
+				concesionario.getListaTransacciones().add(nuevaAlquiladaTransaccion);
+			} else {
+				if(vehiculoAlquiler == null) {
+					throw new VehiculoNoRegistradoException("No se ha encontrado el vehículo");
+				} else if(clienteAlquiler == null) {
+					throw new ClienteNoRegistradoException("No se ha encontrado el cliente");
+				}
+			}
+		} else {
+			throw new EmpleadoNoActivoException("La cuenta del empleado está bloqueada");
+		}
+	}
+
 	//FUNCIONES PARA VENDER VEHICULO
 
 	/**
@@ -530,6 +579,30 @@ public class Empleado extends Persona {
 				clienteTransaccion, fecha);
 		concesionario.getListaTransacciones().add(nuevaVentaTransaccion);
 		concesionario.getListaVehiculos().remove(vehiculoTransaccion); //Tengo que eliminar el vehículo que se vendio
+	}
+
+	public void venderVehículoTransaccion2(Concesionario concesionario, double total, String codigoVehiculo,
+			Empleado empleadoTransaccion, String codigoCliente, String fecha)
+			throws ClienteNoRegistradoException, VehiculoNoRegistradoException, EmpleadoNoActivoException {
+
+		if(empleadoTransaccion.isCuentaActiva()) {
+			Vehiculo vehiculoVenta = obtenerVehiculo(concesionario, codigoVehiculo);
+			Cliente clienteVenta = obtenerCliente(concesionario, codigoCliente);
+			if(vehiculoVenta != null && clienteVenta != null) {
+				Transaccion nuevaVentaTransaccion = new Venta(total, vehiculoVenta, empleadoTransaccion,
+						clienteVenta, fecha);
+				concesionario.getListaTransacciones().add(nuevaVentaTransaccion);
+				concesionario.getListaVehiculos().remove(vehiculoVenta); //Tengo que eliminar el vehículo que se vendio
+			} else {
+				if(vehiculoVenta == null) {
+					throw new VehiculoNoRegistradoException("No se ha encontrado el vehiculo");
+				} else if(clienteVenta == null) {
+					throw new ClienteNoRegistradoException("No se ha encontrado el cliente");
+				}
+			}
+		} else {
+			throw new EmpleadoNoActivoException("La cuenta del empleado está bloqueada");
+		}
 	}
 
 	//FUNCIONES PARA COMPRAR VEHICULO
@@ -558,5 +631,32 @@ public class Empleado extends Persona {
 			concesionario.getListaVehiculos().add(vehiculoTransaccion); //Tengo que añadir el vehiuclo que se compro
 		}
 	}
+
+	public void comprarVehiculoTransaccion2(Concesionario concesionario, double total, Vehiculo vehiculoTransaccion,
+			Empleado empleadoTransaccion, String codigoCliente, boolean pasoRevision)
+			throws VehiculoNoPasoPruebaException, ClienteNoRegistradoException, EmpleadoNoActivoException {
+
+		if(pasoRevision == false) {
+			throw new VehiculoNoPasoPruebaException("No se puede comprar el vehículo, no cumple con la revisión");
+		} else {
+			if(empleadoTransaccion.isCuentaActiva()) {
+				Cliente clienteCompra = obtenerCliente(concesionario, codigoCliente);
+				if(clienteCompra != null) {
+					Transaccion nuevaCompraTransaccion = new Compra(total, vehiculoTransaccion, empleadoTransaccion,
+							clienteCompra, pasoRevision);
+					concesionario.getListaTransacciones().add(nuevaCompraTransaccion);
+					concesionario.getListaVehiculos().add(vehiculoTransaccion); //Tengo que añadir el vehiuclo que se compro
+				} else {
+					throw new ClienteNoRegistradoException("El cliente no pudo ser encontrado");
+				}
+			} else {
+				throw new EmpleadoNoActivoException("La cuenta del empleado está bloqueada");
+			}
+		}
+	}
+
+
+
+
 
 }

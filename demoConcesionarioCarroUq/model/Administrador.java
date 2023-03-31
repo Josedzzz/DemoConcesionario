@@ -3,17 +3,17 @@ package demoConcesionarioCarroUq.model;
 
 import java.util.List;
 
-public class Administrador extends Empleado implements FuncionAdministrador{
+import demoConcesionarioCarroUq.exceptions.EmpleadoNoRegistradoException;
+import demoConcesionarioCarroUq.exceptions.EmpleadoYaExistenteException;
+
+public class Administrador extends Empleado implements FuncionFuncionarios{
 
 	private String credencialAcceso; //Es un dato único de los administradores
-	private List<Empleado> listaEmpleados; //Todos los admin deben tener la lista con todos los empleados
-
 
 	public Administrador(String nombres, String apellidos, String identificacion, String usuario, String contrasenia,
-			String correo, String codigoSeguridad, String credencialAcceso, List<Empleado> listaEmpleados) {
+			String correo, String codigoSeguridad, String credencialAcceso) {
 		super(nombres, apellidos, identificacion, usuario, contrasenia, correo, codigoSeguridad, true);
 		this.credencialAcceso = credencialAcceso;
-		this.listaEmpleados = listaEmpleados;
 	}
 
 	public Administrador() {
@@ -28,13 +28,7 @@ public class Administrador extends Empleado implements FuncionAdministrador{
 		this.credencialAcceso = credencialAcceso;
 	}
 
-	public List<Empleado> getListaEmpleados() {
-		return listaEmpleados;
-	}
 
-	public void setListaEmpleados(List<Empleado> listaEmpleados) {
-		this.listaEmpleados = listaEmpleados;
-	}
 
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -44,11 +38,15 @@ public class Administrador extends Empleado implements FuncionAdministrador{
 	 * @param usuario
 	 * @return
 	 */
+	@Override
 	public Empleado obtenerEmpleado(Concesionario concesionario, String usuario) {
+		List<Persona> personas = concesionario.getListaPersonas();
 		Empleado empleadoEncontrado = null;
-		for(Empleado empleado : listaEmpleados) {
-			if(empleadoEncontrado.getUsuario().equals(usuario)) {
-				empleadoEncontrado = empleado;
+		for(Persona persona : personas) {
+			if(persona instanceof Empleado) {
+				if(((Empleado) persona).getUsuario().equals(usuario)) {
+					empleadoEncontrado = (Empleado) persona;
+				}
 			}
 		}
 		return empleadoEncontrado;
@@ -69,15 +67,15 @@ public class Administrador extends Empleado implements FuncionAdministrador{
 	 */
 	@Override
 	public void crearEmpleado(Concesionario concesionario, String usuario, String contrasenia, String correo,
-			String codigoSeguridad) throws Exception {
+			String codigoSeguridad) throws EmpleadoYaExistenteException {
 		// TODO Auto-generated method stub
 		Empleado empleadoEncontrado = obtenerEmpleado(concesionario, usuario);
 		if(empleadoEncontrado != null) {
-			throw new Exception("El empleado ya existe");
+			throw new EmpleadoYaExistenteException("El empleado ya existe");
 		} else {
 			Empleado empleadoNuevo = new Empleado(codigoSeguridad, codigoSeguridad, codigoSeguridad, usuario,
 					contrasenia, correo, codigoSeguridad, true);
-			listaEmpleados.add(empleadoNuevo);
+			concesionario.getListaPersonas().add(empleadoNuevo);
 		}
 	}
 
@@ -86,11 +84,11 @@ public class Administrador extends Empleado implements FuncionAdministrador{
 	 */
 	@Override
 	public void actualizarEmpleado(Concesionario concesionario, String nombre, String apellido, String identificacion,
-			String usuario, String correo, String codigoSeguridad) throws Exception {
+			String usuario, String correo, String codigoSeguridad) throws EmpleadoNoRegistradoException {
 		// TODO Auto-generated method stub
 		Empleado empleadoEncontrado = obtenerEmpleado(concesionario, usuario);
 		if(empleadoEncontrado == null) {
-			throw new Exception("El empleado no está registrado");
+			throw new EmpleadoNoRegistradoException("El empleado no está registrado");
 		} else {
 			empleadoEncontrado.setNombres(nombre);
 			empleadoEncontrado.setApellidos(apellido);
@@ -105,11 +103,12 @@ public class Administrador extends Empleado implements FuncionAdministrador{
 	 * Cambia el estado cuentaActiva a false de un empleado
 	 */
 	@Override
-	public void bloquearEmpleado(Concesionario concesionario, String usuario) throws Exception {
+	public void bloquearEmpleado(Concesionario concesionario, String usuario)
+		throws EmpleadoNoRegistradoException {
 		// TODO Auto-generated method stub
 		Empleado empleadoEncontrado = obtenerEmpleado(concesionario, usuario);
 		if(empleadoEncontrado == null) {
-			throw new Exception("El empleado no está registrado");
+			throw new EmpleadoNoRegistradoException("El empleado no está registrado");
 		} else {
 			empleadoEncontrado.setCuentaActiva(false);
 		}
