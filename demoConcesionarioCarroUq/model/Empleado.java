@@ -518,15 +518,15 @@ public class Empleado extends Persona {
 	 * @throws Exception
 	 */
 	public void crearAlquiladaTransaccion(Concesionario concesionario, double total, Vehiculo vehiculoTransaccion,
-			Empleado empleadoTransaccion, Cliente clienteTransaccion, int diasAlquiler) {
+			Empleado empleadoTransaccion, Cliente clienteTransaccion, int diasAlquiler, String fecha) {
 
 		Transaccion nuevaAlquiladaTransaccion = new Alquiler(total, vehiculoTransaccion, empleadoTransaccion,
-				clienteTransaccion, diasAlquiler);
+				clienteTransaccion, diasAlquiler, fecha);
 		concesionario.getListaTransacciones().add(nuevaAlquiladaTransaccion);
 	}
 
 	public void crearAlquiladaTransaccion2(Concesionario concesionario, double total, String codigoVehiculo,
-			Empleado empleadoTransaccion, String codigoCliente, int diasAlquiler)
+			Empleado empleadoTransaccion, String codigoCliente, int diasAlquiler, String fecha)
 			throws ClienteNoRegistradoException, VehiculoNoRegistradoException, EmpleadoNoActivoException {
 
 		if(empleadoTransaccion.isCuentaActiva()) {
@@ -534,7 +534,7 @@ public class Empleado extends Persona {
 			Cliente clienteAlquiler = obtenerCliente(concesionario, codigoCliente);
 			if(vehiculoAlquiler != null && clienteAlquiler != null) {
 				Transaccion nuevaAlquiladaTransaccion = new Alquiler(total, vehiculoAlquiler, empleadoTransaccion,
-						clienteAlquiler, diasAlquiler);
+						clienteAlquiler, diasAlquiler, fecha);
 				concesionario.getListaTransacciones().add(nuevaAlquiladaTransaccion);
 			} else {
 				if(vehiculoAlquiler == null) {
@@ -610,20 +610,20 @@ public class Empleado extends Persona {
 	 * @throws Exception
 	 */
 	public void comprarVehiculoTransaccion(Concesionario concesionario, double total, Vehiculo vehiculoTransaccion,
-			Empleado empleadoTransaccion, Cliente clienteTransaccion, boolean pasoRevision) throws Exception {
+			Empleado empleadoTransaccion, Cliente clienteTransaccion, boolean pasoRevision, String fecha) throws Exception {
 
 		if(pasoRevision == false) {
 			throw new Exception("No se puede comprar el vehículo, no cumple con la revisión");
 		} else {
 			Transaccion nuevaCompraTransaccion = new Compra(total, vehiculoTransaccion, empleadoTransaccion,
-					clienteTransaccion, pasoRevision);
+					clienteTransaccion, pasoRevision, fecha);
 			concesionario.getListaTransacciones().add(nuevaCompraTransaccion);
 			concesionario.getListaVehiculos().add(vehiculoTransaccion); //Tengo que añadir el vehiuclo que se compro
 		}
 	}
 
 	public void comprarVehiculoTransaccion2(Concesionario concesionario, double total, Vehiculo vehiculoTransaccion,
-			Empleado empleadoTransaccion, String codigoCliente, boolean pasoRevision)
+			Empleado empleadoTransaccion, String codigoCliente, boolean pasoRevision, String fecha)
 			throws VehiculoNoPasoPruebaException, ClienteNoRegistradoException, EmpleadoNoActivoException {
 
 		if(pasoRevision == false) {
@@ -633,7 +633,7 @@ public class Empleado extends Persona {
 				Cliente clienteCompra = obtenerCliente(concesionario, codigoCliente);
 				if(clienteCompra != null) {
 					Transaccion nuevaCompraTransaccion = new Compra(total, vehiculoTransaccion, empleadoTransaccion,
-							clienteCompra, pasoRevision);
+							clienteCompra, pasoRevision, fecha);
 					concesionario.getListaTransacciones().add(nuevaCompraTransaccion);
 					concesionario.getListaVehiculos().add(vehiculoTransaccion); //Tengo que añadir el vehiuclo que se compro
 				} else {
