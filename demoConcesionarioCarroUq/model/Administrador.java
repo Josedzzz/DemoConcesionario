@@ -6,7 +6,7 @@ import java.util.List;
 import demoConcesionarioCarroUq.exceptions.EmpleadoNoRegistradoException;
 import demoConcesionarioCarroUq.exceptions.EmpleadoYaExistenteException;
 
-public class Administrador extends Empleado implements FuncionFuncionarios{
+public class Administrador extends Empleado implements FuncionAdministrador{
 
 	private String credencialAcceso; //Es un dato único de los administradores
 

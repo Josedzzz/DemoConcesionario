@@ -5,8 +5,6 @@ public class PickUp extends Carro{
 	private double capacidadCajaCarga;
 	private boolean es4x4;
 
-
-
 	public PickUp(String codigo, String marca, CondicionVehiculo condicionVehiculo, String modelo, int cambios,
 			int velocidadMax, TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga, boolean esEnchufable,
 			boolean esHibridoLigero, String cilindraje, int numPasajeros, int numPuertas,

@@ -2,7 +2,7 @@ package demoConcesionarioCarroUq.model;
 
 import java.util.List;
 
-public interface FuncionFuncionarios {
+public interface FuncionAdministrador {
 
 	//Funciones del admin
 	public Empleado obtenerEmpleado(Concesionario concesionario, String usuario);
@@ -14,11 +14,4 @@ public interface FuncionFuncionarios {
 	public void bloquearEmpleado(Concesionario concesionario, String usuario) throws Exception;
 	public void recuperarCuentaEmpleado();
 
-
-	//Funciones del empleado
-	public Vehiculo obtenerVehiculo(Concesionario concesionario, String codigo);
-	public void registrarMoto(Concesionario concesionario, String codigo, String marca,
-			CondicionVehiculo condicionVehiculo, String modelo, int cambios, int velocidadMax,
-			TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga, boolean esEnchufable,
-			boolean esHibridoLigero, String cilindraje) throws Exception;
 }

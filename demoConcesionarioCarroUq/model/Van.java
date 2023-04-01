@@ -4,8 +4,6 @@ public class Van extends Carro{
 
 	private double capacidadMaletero;
 
-
-
 	public Van(String codigo, String marca, CondicionVehiculo condicionVehiculo, String modelo, int cambios,
 			int velocidadMax, TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga, boolean esEnchufable,
 			boolean esHibridoLigero, String cilindraje, int numPasajeros, int numPuertas,

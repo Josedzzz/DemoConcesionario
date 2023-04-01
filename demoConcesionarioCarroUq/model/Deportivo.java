@@ -5,8 +5,6 @@ public class Deportivo extends Carro{
 	private int numCaballosFuerza;
 	private double tiempoPara100km;
 
-
-
 	public Deportivo(String codigo, String marca, CondicionVehiculo condicionVehiculo, String modelo, int cambios,
 			int velocidadMax, TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga, boolean esEnchufable,
 			boolean esHibridoLigero, String cilindraje, int numPasajeros, int numPuertas,

@@ -1,6 +1,6 @@
 package demoConcesionarioCarroUq.model;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import demoConcesionarioCarroUq.exceptions.ClienteNoRegistradoException;
@@ -17,7 +17,6 @@ public class Empleado extends Persona {
 	protected String correo;
 	protected String codigoSeguridad;
 	protected boolean cuentaActiva;
-	protected List<Cliente> listaClientes;
 
 	public Empleado(String nombres, String apellidos, String identificacion, String usuario, String contrasenia,
 			String correo, String codigoSeguridad, boolean cuentaActiva) {
@@ -27,7 +26,6 @@ public class Empleado extends Persona {
 		this.correo = correo;
 		this.codigoSeguridad = codigoSeguridad;
 		this.cuentaActiva = cuentaActiva;
-		this.listaClientes = new ArrayList<Cliente>();
 	}
 
 	public Empleado() {
@@ -64,14 +62,6 @@ public class Empleado extends Persona {
 
 	public void setCodigoSeguridad(String codigoSeguridad) {
 		this.codigoSeguridad = codigoSeguridad;
-	}
-
-	public List<Cliente> getListaClientes() {
-		return listaClientes;
-	}
-
-	public void setListaClientes(List<Cliente> listaClientes) {
-		this.listaClientes = listaClientes;
 	}
 
 	public boolean isCuentaActiva() {
@@ -348,12 +338,12 @@ public class Empleado extends Persona {
 	 * @param capacidadMaletero
 	 * @throws Exception
 	 */
-	public void registrarVan(Concesionario concesionario,String codigo, String marca, CondicionVehiculo condicionVehiculo, String modelo, int cambios,
-			int velocidadMax, TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga, boolean esEnchufable,
-			boolean esHibridoLigero, String cilindraje, int numPasajeros, int numPuertas,
-			boolean tieneAireAcondicionado, boolean tieneCamReversa, int numBolsasAire, boolean tieneABS,
-			TransmisionVehiculo transmisionVehiculo, double capacidadMaletero)
-			throws VehiculoYaExistenteException {
+	public void registrarVan(Concesionario concesionario,String codigo, String marca,
+			CondicionVehiculo condicionVehiculo, String modelo, int cambios, int velocidadMax,
+			TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga, boolean esEnchufable, boolean esHibridoLigero,
+			String cilindraje, int numPasajeros, int numPuertas, boolean tieneAireAcondicionado,
+			boolean tieneCamReversa, int numBolsasAire, boolean tieneABS, TransmisionVehiculo transmisionVehiculo,
+			double capacidadMaletero) throws VehiculoYaExistenteException {
 
 		Vehiculo vehiculoEncontrado = obtenerVehiculo(concesionario,codigo);
 		if(vehiculoEncontrado != null) {
