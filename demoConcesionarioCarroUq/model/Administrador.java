@@ -8,25 +8,25 @@ import demoConcesionarioCarroUq.exceptions.EmpleadoYaExistenteException;
 
 public class Administrador extends Empleado implements FuncionAdministrador{
 
-	private String credencialAcceso; //Es un dato único de los administradores
+	//private String credencialAcceso; //Es un dato único de los administradores
 
 	public Administrador(String nombres, String apellidos, String identificacion, String usuario, String contrasenia,
-			String correo, String codigoSeguridad, String credencialAcceso) {
+			String correo, String codigoSeguridad) {
 		super(nombres, apellidos, identificacion, usuario, contrasenia, correo, codigoSeguridad, true);
-		this.credencialAcceso = credencialAcceso;
+		//this.credencialAcceso = credencialAcceso;
 	}
 
 	public Administrador() {
 
 	}
 
-	public String getCredencialAcceso() {
+	/*public String getCredencialAcceso() {
 		return credencialAcceso;
 	}
 
 	public void setCredencialAcceso(String credencialAcceso) {
 		this.credencialAcceso = credencialAcceso;
-	}
+	}*/
 
 
 
@@ -40,13 +40,11 @@ public class Administrador extends Empleado implements FuncionAdministrador{
 	 */
 	@Override
 	public Empleado obtenerEmpleado(Concesionario concesionario, String usuario) {
-		List<Persona> personas = concesionario.getListaPersonas();
+		List<Empleado> empleados = concesionario.getListaEmpleados();
 		Empleado empleadoEncontrado = null;
-		for(Persona persona : personas) {
-			if(persona instanceof Empleado) {
-				if(((Empleado) persona).getUsuario().equals(usuario)) {
-					empleadoEncontrado = (Empleado) persona;
-				}
+		for(Empleado empleado : empleados) {
+			if(empleado.getUsuario().equals(usuario)) {
+				empleadoEncontrado = empleado;
 			}
 		}
 		return empleadoEncontrado;
@@ -66,17 +64,20 @@ public class Administrador extends Empleado implements FuncionAdministrador{
 	 * Crea un empleado y lo añade a la lista de empleados
 	 */
 	@Override
-	public void crearEmpleado(Concesionario concesionario, String usuario, String contrasenia, String correo,
+	public boolean crearEmpleado(Concesionario concesionario, String usuario, String contrasenia, String correo,
 			String codigoSeguridad) throws EmpleadoYaExistenteException {
 		// TODO Auto-generated method stub
+		boolean fueCreado = false;
 		Empleado empleadoEncontrado = obtenerEmpleado(concesionario, usuario);
 		if(empleadoEncontrado != null) {
 			throw new EmpleadoYaExistenteException("El empleado ya existe");
 		} else {
 			Empleado empleadoNuevo = new Empleado(codigoSeguridad, codigoSeguridad, codigoSeguridad, usuario,
 					contrasenia, correo, codigoSeguridad, true);
-			concesionario.getListaPersonas().add(empleadoNuevo);
+			concesionario.getListaEmpleados().add(empleadoNuevo);
+			fueCreado = true;
 		}
+		return fueCreado;
 	}
 
 	/**
@@ -84,7 +85,7 @@ public class Administrador extends Empleado implements FuncionAdministrador{
 	 */
 	@Override
 	public void actualizarEmpleado(Concesionario concesionario, String nombre, String apellido, String identificacion,
-			String usuario, String correo, String codigoSeguridad) throws EmpleadoNoRegistradoException {
+			String usuario, String correo) throws EmpleadoNoRegistradoException {
 		// TODO Auto-generated method stub
 		Empleado empleadoEncontrado = obtenerEmpleado(concesionario, usuario);
 		if(empleadoEncontrado == null) {
@@ -93,9 +94,7 @@ public class Administrador extends Empleado implements FuncionAdministrador{
 			empleadoEncontrado.setNombres(nombre);
 			empleadoEncontrado.setApellidos(apellido);
 			empleadoEncontrado.setIdentificacion(identificacion);
-			empleadoEncontrado.setUsuario(usuario);
 			empleadoEncontrado.setCorreo(correo);
-			empleadoEncontrado.setCodigoSeguridad(codigoSeguridad);
 		}
 	}
 

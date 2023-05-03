@@ -72,9 +72,11 @@ public class Empleado extends Persona {
 		this.cuentaActiva = cuentaActiva;
 	}
 
+
 //-----------------------------------------------------------------------------------------------------------------------
 
 	//FUNCIONES PARA REGISTRAR CADA TIPO DE VEHÍCULO:
+
 
 	/**
 	 * Dado el codigo de un vehículo, me retorna este mismo
@@ -462,13 +464,11 @@ public class Empleado extends Persona {
 	 * @return
 	 */
 	public Cliente obtenerCliente(Concesionario concesionario, String codigoCliente) {
-		List<Persona> personas = concesionario.getListaPersonas();
+		List<Cliente> clientes = concesionario.getListaClientes();
 		Cliente clienteEncontrado = null;
-		for(Persona persona : personas) {
-			if(persona instanceof Cliente) {
-				if(((Cliente) persona).getCodigoCliente().equals(codigoCliente)) {
-					clienteEncontrado = (Cliente) persona;
-				}
+		for(Cliente cliente : clientes) {
+			if(cliente.getCodigoCliente().equals(codigoCliente)) {
+				clienteEncontrado = cliente;
 			}
 		}
 		return clienteEncontrado;
@@ -493,8 +493,8 @@ public class Empleado extends Persona {
 			if(clienteEncontrado != null) {
 				throw new ClienteYaExistenteException("El cliente ya existe");
 			} else {
-				Persona nuevoCliente = new Cliente(nombres, apellidos, identificacion, codigoCliente, empleadoCliente);
-				concesionario.getListaPersonas().add(nuevoCliente);
+				Cliente nuevoCliente = new Cliente(nombres, apellidos, identificacion, codigoCliente, empleadoCliente);
+				concesionario.getListaClientes().add(nuevoCliente);
 			}
 		} else {
 			throw new EmpleadoNoActivoException("La cuenta del empleado está bloqueada");

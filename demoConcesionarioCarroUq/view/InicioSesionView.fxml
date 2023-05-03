@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="341.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="demoConcesionarioCarroUq.controllers.InicioSesionController">
+   <children>
+      <SplitPane dividerPositions="0.5" prefHeight="342.0" prefWidth="600.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="568.0" prefWidth="148.0">
+               <children>
+                  <Label layoutX="46.0" layoutY="50.0" text="Inciar sesión como administrador">
+                     <font>
+                        <Font name="Arial" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtUsuarioAdminSesion" alignment="CENTER" layoutX="75.0" layoutY="123.0" promptText="Usuario" />
+                  <TextField fx:id="txtContraseniaAdminSesion" alignment="CENTER" layoutX="75.0" layoutY="170.0" promptText="Contraseña" />
+                  <Button fx:id="btnIngresarAdminSesion" layoutX="94.0" layoutY="249.0" mnemonicParsing="false" onAction="#ingresarAdminSesion" prefHeight="25.0" prefWidth="110.0" text="Ingresar" />
+                  <Button fx:id="btnOlvidoAdminSesion" layoutX="72.0" layoutY="301.0" mnemonicParsing="false" onAction="#recuperarAdminSesion" text="¿Olvidaste tu contraseña?" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="305.0" prefWidth="323.0">
+               <children>
+                  <Label layoutX="56.0" layoutY="48.0" text="Iniciar sesión como empleado">
+                     <font>
+                        <Font name="Arial" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtUsuarioEmpleadoSesion" alignment="CENTER" layoutX="75.0" layoutY="122.0" promptText="Usuario" />
+                  <TextField fx:id="txtContraseniaEmpleadoSesion" alignment="CENTER" layoutX="75.0" layoutY="170.0" promptText="Contraseña" />
+                  <Button fx:id="btnIngresarEmpleadoSesion" layoutX="95.0" layoutY="248.0" mnemonicParsing="false" onAction="#ingresarEmpleadoSesion" prefHeight="25.0" prefWidth="110.0" text="Ingresar" />
+                  <Button fx:id="btnOlvidoEmpleadoSesion" layoutX="72.0" layoutY="301.0" mnemonicParsing="false" onAction="#recuperarEmpleadoSesion" text="¿Olvidaste tu contraseña?" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
