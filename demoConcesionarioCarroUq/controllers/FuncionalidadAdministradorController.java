@@ -10,7 +10,6 @@ import demoConcesionarioCarroUq.application.Aplicacion;
 import demoConcesionarioCarroUq.exceptions.EmpleadoNoRegistradoException;
 import demoConcesionarioCarroUq.exceptions.EmpleadoYaExistenteException;
 import demoConcesionarioCarroUq.model.Administrador;
-import demoConcesionarioCarroUq.model.Concesionario;
 import demoConcesionarioCarroUq.model.Empleado;
 import demoConcesionarioCarroUq.model.Transaccion;
 import javafx.collections.FXCollections;
@@ -30,6 +29,7 @@ import javafx.stage.Stage;
 
 public class FuncionalidadAdministradorController implements Initializable{
 
+	ModelFactoryController mfm = ModelFactoryController.getInstance();
 
     @FXML
     private ResourceBundle resources;
@@ -143,8 +143,6 @@ public class FuncionalidadAdministradorController implements Initializable{
 
     private InicioSesionController inicioSesionController;
 
-    private Concesionario concesionario;
-
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -194,7 +192,6 @@ public class FuncionalidadAdministradorController implements Initializable{
 
 	public void setAplicacion(Aplicacion aplicacion) {
 		this.aplicacion= aplicacion;
-		this.concesionario = aplicacion.getConcesionario();
 		//Lista de empleados que se va a mostrar
 		tableViewEmpleadosFuncionalidadA.getItems().clear();
 		tableViewEmpleadosFuncionalidadA.setItems(getEmpleados());
@@ -202,7 +199,7 @@ public class FuncionalidadAdministradorController implements Initializable{
 	}
 
     private ObservableList<Empleado> getEmpleados() {
-		listadoEmpleados.addAll(concesionario.getListaEmpleados());
+		listadoEmpleados.addAll(mfm.getListaEmpleados());
 		return listadoEmpleados;
 	}
 
@@ -224,7 +221,7 @@ public class FuncionalidadAdministradorController implements Initializable{
 	 */
 	public void init(Stage stage, InicioSesionController inicioSesionController, Administrador adminActual) {
 		this.inicioSesionController = inicioSesionController;
-		this.concesionario = aplicacion.getConcesionario();
+		//this.concesionario = mfm.getConcesionario();
 		this.adminActual = adminActual;
 		this.stage = stage;
 	}
@@ -300,7 +297,7 @@ public class FuncionalidadAdministradorController implements Initializable{
     	String codigoSeguridad = txtCodigoEmpleadoFuncionalidadA.getText();
     	if(empleadoSeleccion != null) {
     		if(datosValidosEmpleado(nombre, apellido, identificacion, usuario, contrasenia, correo, codigoSeguridad)) {
-    			aplicacion.actualizarEmpleado(concesionario, adminActual, nombre, apellido, identificacion, usuario, contrasenia, correo, codigoSeguridad);
+    			mfm.actualizarEmpleado(mfm.getConcesionario(), adminActual, nombre, apellido, identificacion, usuario, contrasenia, correo, codigoSeguridad);
     			//Actualizo los datos de la interfaz
     			empleadoSeleccion.setNombres(nombre);
     			empleadoSeleccion.setApellidos(apellido);
@@ -394,7 +391,7 @@ public class FuncionalidadAdministradorController implements Initializable{
 
     	boolean fueCreado;
 		try {
-			fueCreado = aplicacion.crearEmpleado(concesionario, adminActual, nombre, apellido, identificacion, usuario, contrasenia, correo, codigoSeguridad);
+			fueCreado = mfm.crearEmpleado(mfm.getConcesionario(), adminActual, nombre, apellido, identificacion, usuario, contrasenia, correo, codigoSeguridad);
 		   	if(fueCreado) {
 	    		//Añado el empleado a l atable view
 	    		tableViewEmpleadosFuncionalidadA.getItems().clear();
@@ -417,7 +414,7 @@ public class FuncionalidadAdministradorController implements Initializable{
 		if(empleadoSeleccion != null) {
 	    	String usuario = txtUsuarioEmpleadoFuncionalidadA.getText();
 	    	try {
-				aplicacion.bloquearEmpleado(concesionario, adminActual, usuario);
+				mfm.bloquearEmpleado(mfm.getConcesionario(), adminActual, usuario);
 				//Actualizo los datos de la tabla
 				tableViewEmpleadosFuncionalidadA.refresh();
 				mostrarMensaje("Notificación Concesionario", "Empleado bloqueado", "El empleado "
@@ -452,7 +449,7 @@ public class FuncionalidadAdministradorController implements Initializable{
     private void generarReportesAction() {
     	if (fechaInicial != null && fechaFinal != null) {
     		try {
-				if (aplicacion.validarFechas(fechaInicial, fechaFinal)) {
+				if (mfm.validarFechas(fechaInicial, fechaFinal)) {
 					tableViewTransaccionesReportes.getItems().clear();
 					tableViewTransaccionesReportes.setItems(getDatosTransacciones(fechaInicial, fechaFinal));
 				} else {
@@ -476,7 +473,7 @@ public class FuncionalidadAdministradorController implements Initializable{
      * @return
      */
     private ObservableList<Transaccion> getDatosTransacciones(String fechaIncial, String fechaFinal) {
-		listadoTransacciones.addAll(aplicacion.getListaDatosTransacciones(fechaInicial, fechaFinal));
+		listadoTransacciones.addAll(mfm.getListaDatosTransacciones(fechaInicial, fechaFinal));
 		return listadoTransacciones;
 	}
 

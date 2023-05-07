@@ -26,24 +26,6 @@ public class Concesionario {
 		this.listaClientes = new ArrayList<Cliente>();
 		this.listaTransacciones = new ArrayList<Transaccion>();
 		this.listaVehiculos = new ArrayList<Vehiculo>();
-
-		//Inicializo datos para probarlos
-		Administrador admin1 = new Administrador("Jose", "Amaya", "123", "jose", "1234", "josed@", "11111");
-		listaAdministradores.add(admin1);
-		Empleado empleado1 = new Empleado("Nico", "Gomez", "321", "Nico", "321", "nico@", "22222", true);
-		listaEmpleados.add(empleado1);
-		Empleado empleado2 = new Empleado("Miguel", "Montes", "444", "migue", "444", "migue@", "44444", true);
-		listaEmpleados.add(empleado2);
-
-		//Incializo datos de transacciones para probarlos
-		Cliente cliente1 = new Cliente("Manuel", "Restrepo", "1023412", empleado1);
-		Cliente cliente2 = new Cliente("Andres", "Garcia", "1023456", empleado2);
-		Van vehiculo1 = new Van("123-Van", "10000000", "Reanult", CondicionVehiculo.NUEVO, "2020", 5, 200, TipoVehiculo.GASOLINA, 0, 0, false, false, "1206", 8, 4, true, true, 2, true, TransmisionVehiculo.MANUAL, 20);
-		Moto vehiculo2 = new Moto("321-Moto", "2000000", "kawasaki", CondicionVehiculo.USADO, "2021", 5, 260, TipoVehiculo.DIESEL, 0, 0, false, false, "350");
-		Transaccion transaccion1 = new Transaccion("6/05/2023", vehiculo1, empleado1, cliente1);
-		Transaccion transaccion2 = new Transaccion("10/05/2023", vehiculo2, empleado2, cliente2);
-		listaTransacciones.add(transaccion1);
-		listaTransacciones.add(transaccion2);
 	}
 
 	public Concesionario() {

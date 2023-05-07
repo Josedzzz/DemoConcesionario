@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 
 import demoConcesionarioCarroUq.application.Aplicacion;
 import demoConcesionarioCarroUq.model.Administrador;
-import demoConcesionarioCarroUq.model.Concesionario;
 import demoConcesionarioCarroUq.model.Empleado;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,6 +22,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class InicioSesionController implements Initializable{
+
+	ModelFactoryController mfm = ModelFactoryController.getInstance();
 
     @FXML
     private ResourceBundle resources;
@@ -56,9 +57,6 @@ public class InicioSesionController implements Initializable{
 
     //Creo la aplicacion
     private Aplicacion aplicacion;
-
-    //Creo el consecionario
-    private Concesionario concesionario;
 
     //Creo las variables auxiliares para el empleado o el admin que inicien sesion
     private Empleado empleadoSesion;
@@ -96,7 +94,7 @@ public class InicioSesionController implements Initializable{
     	String usuario = txtUsuarioAdminSesion.getText();
     	String contrasenia = txtContraseniaAdminSesion.getText();
     	if(datosValidosAdminEmpleado(usuario, contrasenia)) {
-    		administradorSesion = aplicacion.darAdministradorSesion(usuario, contrasenia);
+    		administradorSesion = mfm.darAdministradorSesion(usuario, contrasenia);
     		if(administradorSesion == null) {
     			mostrarMensaje("Notificación Inicio Sesión", "No existe el administrador", "No hay un admin con esos "
     					+ "datos", AlertType.WARNING);
@@ -131,7 +129,7 @@ public class InicioSesionController implements Initializable{
     	String usuario = txtUsuarioEmpleadoSesion.getText();
     	String contrasenia = txtContraseniaEmpleadoSesion.getText();
     	if(datosValidosAdminEmpleado(usuario, contrasenia)) {
-    		empleadoSesion = aplicacion.darEmpleadoSesion(usuario, contrasenia);
+    		empleadoSesion = mfm.darEmpleadoSesion(usuario, contrasenia);
     		if(empleadoSesion == null) {
     			mostrarMensaje("Notificación Inicio Sesión", "No existe el empleado", "No hay un empleado con esos "
     					+ "datos", AlertType.WARNING);
