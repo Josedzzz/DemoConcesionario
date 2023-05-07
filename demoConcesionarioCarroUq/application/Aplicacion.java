@@ -1,11 +1,15 @@
 package demoConcesionarioCarroUq.application;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+
 import demoConcesionarioCarroUq.controllers.InicioSesionController;
 import demoConcesionarioCarroUq.exceptions.EmpleadoNoRegistradoException;
 import demoConcesionarioCarroUq.exceptions.EmpleadoYaExistenteException;
 import demoConcesionarioCarroUq.model.Administrador;
 import demoConcesionarioCarroUq.model.Concesionario;
 import demoConcesionarioCarroUq.model.Empleado;
+import demoConcesionarioCarroUq.model.Transaccion;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -137,6 +141,29 @@ public class Aplicacion extends Application {
 	 */
 	public void bloquearEmpleado(Concesionario concesionario2, Administrador adminActual, String usuario) throws EmpleadoNoRegistradoException {
 		concesionario.bloquearEmpleado(concesionario, adminActual, usuario);
+	}
+
+	/**
+	 * Verifica que la fecha inicial sea menor a la fecha final
+	 * @param fechaInicial
+	 * @param fechaFinal
+	 * @return
+	 * @throws ParseException
+	 */
+	public boolean validarFechas(String fechaInicial, String fechaFinal) throws ParseException {
+		boolean esValido = concesionario.validarFechas(fechaInicial, fechaFinal);
+		return esValido;
+	}
+
+	/**
+	 * Me da el arraylist con los datos para el tableView de los reportes
+	 * @param fechaInicial
+	 * @param fechaFinal
+	 * @return
+	 */
+	public ArrayList<Transaccion> getListaDatosTransacciones(String fechaInicial, String fechaFinal) {
+		ArrayList<Transaccion> listaDatosTransacciones = concesionario.getListaDatosTransacciones(fechaInicial, fechaFinal);
+		return listaDatosTransacciones;
 	}
 
 

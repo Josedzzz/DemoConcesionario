@@ -3,6 +3,7 @@ package demoConcesionarioCarroUq.model;
 public abstract class Vehiculo {
 
 	protected String codigo;
+	protected String precio;
 	protected String marca;
 	protected CondicionVehiculo condicionVehiculo;
 	protected String modelo;
@@ -18,7 +19,7 @@ public abstract class Vehiculo {
 
 
 
-	public Vehiculo(String codigo, String marca, CondicionVehiculo condicionVehiculo, String modelo, int cambios,
+	public Vehiculo(String codigo,String precio, String marca, CondicionVehiculo condicionVehiculo, String modelo, int cambios,
 			int velocidadMax, TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga, boolean esEnchufable,
 			boolean esHibridoLigero) {
 		super();
@@ -125,6 +126,14 @@ public abstract class Vehiculo {
 
 	public void setEsHibridoLigero(boolean esHibridoLigero) {
 		this.esHibridoLigero = esHibridoLigero;
+	}
+
+	public String getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(String precio) {
+		this.precio = precio;
 	}
 
 

@@ -1,6 +1,9 @@
 package demoConcesionarioCarroUq.controllers;
 
 import java.net.URL;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import demoConcesionarioCarroUq.application.Aplicacion;
@@ -9,6 +12,7 @@ import demoConcesionarioCarroUq.exceptions.EmpleadoYaExistenteException;
 import demoConcesionarioCarroUq.model.Administrador;
 import demoConcesionarioCarroUq.model.Concesionario;
 import demoConcesionarioCarroUq.model.Empleado;
+import demoConcesionarioCarroUq.model.Transaccion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -89,11 +94,44 @@ public class FuncionalidadAdministradorController implements Initializable{
     @FXML
     private Button btnCerrarSesionFuncionalidadA;
 
+    @FXML
+    private DatePicker dateInicialReportes;
+
+    @FXML
+    private DatePicker dateFinalReportes;
+
+    @FXML
+    private Button btnGenerarReportes;
+
+    @FXML
+    private TableView<Transaccion> tableViewTransaccionesReportes;
+
+    @FXML
+    private TableColumn<Transaccion, String> columnIdentificacionClientesRepotes;
+
+    @FXML
+    private TableColumn<Transaccion, String> columnEmpleadoReportes;
+
+    @FXML
+    private TableColumn<Transaccion, String> columnTotalReportes;
+
+    @FXML
+    private TableColumn<Transaccion, String> columnCodigoVehiculoReportes;
+
+    @FXML
+    private TableColumn<Transaccion, String> columnFechaReportes;
+
+    //Creo las variables de fecha incial y fecha final
+    private String fechaInicial;
+    private String fechaFinal;
 
     //Creo la lista de empleados que se encuentra en el tableView
     ObservableList<Empleado> listadoEmpleados = FXCollections.observableArrayList();
     //Creo el empleado que el usuario puede seleccionar
     private Empleado empleadoSeleccion;
+
+    //Creo la lista de transacciones que se van a encontrar en la table view cuando se indique una fecha
+    ObservableList<Transaccion> listadoTransacciones = FXCollections.observableArrayList();
 
     //Declaro variables necesarias
 
@@ -124,7 +162,35 @@ public class FuncionalidadAdministradorController implements Initializable{
 				mostrarInformacionEmpleado();
 			}
 		});
+
+		//Datos en la tableView de transacciones
+		this.columnEmpleadoReportes.setCellValueFactory(new PropertyValueFactory<>("empleadoTransaccion"));
+		this.columnIdentificacionClientesRepotes.setCellValueFactory(new PropertyValueFactory<>("clienteTransaccion"));
+		this.columnCodigoVehiculoReportes.setCellValueFactory(new PropertyValueFactory<>("vehiculoTransaccion"));
+		this.columnTotalReportes.setCellValueFactory(new PropertyValueFactory<>("precio"));
+		this.columnFechaReportes.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+
+		//Para poder obtener la fecha inicial
+		dateInicialReportes.setOnAction(event -> {
+			//Obtener la fecha seleccionada como un objeto LocalDate
+			LocalDate date = dateInicialReportes.getValue();
+		    // Crear un objeto DateTimeFormatter con el formato deseado
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            // Convertir la fecha a una cadena con el formato deseado
+            fechaInicial = date.format(formato);
+		});
+		//Para poder obtener la fecha final
+		dateFinalReportes.setOnAction(event -> {
+			//Obtener la fecha seleccionada como un objeto LocalDate
+			LocalDate date = dateFinalReportes.getValue();
+		    // Crear un objeto DateTimeFormatter con el formato deseado
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            // Convertir la fecha a una cadena con el formato deseado
+            fechaFinal = date.format(formato);
+		});
 	}
+
+
 
 	public void setAplicacion(Aplicacion aplicacion) {
 		this.aplicacion= aplicacion;
@@ -132,6 +198,7 @@ public class FuncionalidadAdministradorController implements Initializable{
 		//Lista de empleados que se va a mostrar
 		tableViewEmpleadosFuncionalidadA.getItems().clear();
 		tableViewEmpleadosFuncionalidadA.setItems(getEmpleados());
+
 	}
 
     private ObservableList<Empleado> getEmpleados() {
@@ -162,6 +229,24 @@ public class FuncionalidadAdministradorController implements Initializable{
 		this.stage = stage;
 	}
 
+    /**
+     * Muestra un mensaje dependiendo con el tipo de alerta seleccionado
+     * @param title
+     * @param header
+     * @param content
+     * @param alertType
+     */
+    public void mostrarMensaje(String title, String header, String content, AlertType alertType) {
+		Alert alert = new Alert(alertType);
+		alert.setTitle(title);
+		alert.setHeaderText(header);
+		alert.setContentText(content);
+		alert.showAndWait();
+    }
+
+
+//------------------------------------------------------------------------------------------------------------------------
+//-----------------------------FUNCIONALIDADES PESTAÑA DATOS EMPLEADOS----------------------------------------------------
 	/**
 	 * Muestra los datos del empleado seleccionado
 	 */
@@ -347,21 +432,52 @@ public class FuncionalidadAdministradorController implements Initializable{
     	}
     }
 
+//------------------------------------------------------------------------------------------------------------------------
+//----------------------------FUNCIONALIDADES PESTAÑA REPORTES------------------------------------------------------------
     /**
-     * Muestra un mensaje dependiendo con el tipo de alerta seleccionado
-     * @param title
-     * @param header
-     * @param content
-     * @param alertType
+     * Genera reportes
+     * @param event
      */
-    public void mostrarMensaje(String title, String header, String content, AlertType alertType) {
-		Alert alert = new Alert(alertType);
-		alert.setTitle(title);
-		alert.setHeaderText(header);
-		alert.setContentText(content);
-		alert.showAndWait();
+	@FXML
+    void generarReportes(ActionEvent event) {
+    	generarReportesAction();
     }
 
+	/**
+	 * Genera los reportes dado una fecha inicial y una fecha final
+	 * Primero revisa que la fecha seleccionada en el calendar no sea nula
+	 * Segundo revisa que la fecha inicial sea menor a la fecha final
+	 * Si es así, me muestra los datos en la tableview
+	 */
+    private void generarReportesAction() {
+    	if (fechaInicial != null && fechaFinal != null) {
+    		try {
+				if (aplicacion.validarFechas(fechaInicial, fechaFinal)) {
+					tableViewTransaccionesReportes.getItems().clear();
+					tableViewTransaccionesReportes.setItems(getDatosTransacciones(fechaInicial, fechaFinal));
+				} else {
+					mostrarMensaje("Notificación Concesionario", "Fechas invalidas", "La fecha final no puede"
+							+ " ser menor a la fecha inicial", AlertType.WARNING);
+				}
+			} catch (ParseException e) {
+				mostrarMensaje("Notificación Concesionario", "Fechas invalidas", "Ocurrion un error con las"
+						+ " fechas ingresadas", AlertType.WARNING);
+			}
+    	} else {
+    		mostrarMensaje("Notificación Concesionario", "Fechas no seleccionadas", "Por favor seleccionar"
+    				+ " una fecha", AlertType.WARNING);
+    	}
+    }
 
+    /**
+     * Me da el observableList de las transacciones
+     * @param fechaIncial
+     * @param fechaFinal
+     * @return
+     */
+    private ObservableList<Transaccion> getDatosTransacciones(String fechaIncial, String fechaFinal) {
+		listadoTransacciones.addAll(aplicacion.getListaDatosTransacciones(fechaInicial, fechaFinal));
+		return listadoTransacciones;
+	}
 
 }

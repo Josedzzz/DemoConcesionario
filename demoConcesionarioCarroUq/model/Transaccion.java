@@ -1,16 +1,19 @@
 package demoConcesionarioCarroUq.model;
 
-public abstract class Transaccion {
+public class Transaccion {
 
-	protected double total;
+	//protected double total;
+	protected String fecha;
 	protected Vehiculo vehiculoTransaccion;
 	protected Empleado empleadoTransaccion;
 	protected Cliente clienteTransaccion;
 
-	public Transaccion(double total, Vehiculo vehiculoTransaccion, Empleado empleadoTransaccion,
+
+
+	public Transaccion(String fecha, Vehiculo vehiculoTransaccion, Empleado empleadoTransaccion,
 			Cliente clienteTransaccion) {
 		super();
-		this.total = total;
+		this.fecha = fecha;
 		this.vehiculoTransaccion = vehiculoTransaccion;
 		this.empleadoTransaccion = empleadoTransaccion;
 		this.clienteTransaccion = clienteTransaccion;
@@ -18,14 +21,6 @@ public abstract class Transaccion {
 
 	public Transaccion() {
 
-	}
-
-	public double getTotal() {
-		return total;
-	}
-
-	public void setTotal(double total) {
-		this.total = total;
 	}
 
 	public Vehiculo getVehiculoTransaccion() {
@@ -51,6 +46,15 @@ public abstract class Transaccion {
 	public void setClienteTransaccion(Cliente clienteTransaccion) {
 		this.clienteTransaccion = clienteTransaccion;
 	}
+
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
 
 //-----------------------------------------------------------------------------------------------------------------------
 

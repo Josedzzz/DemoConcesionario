@@ -11,12 +11,12 @@ public abstract class Carro extends Vehiculo{
 	protected boolean tieneABS;
 	protected TransmisionVehiculo transmisionVehiculo;
 
-	public Carro(String codigo, String marca, CondicionVehiculo condicionVehiculo, String modelo, 
-			int cambios, int velocidadMax, TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga, 
+	public Carro(String codigo, String precio, String marca, CondicionVehiculo condicionVehiculo, String modelo,
+			int cambios, int velocidadMax, TipoVehiculo tipoVehiculo, int minAutinomia, int minCarga,
 			boolean esEnchufable, boolean esHibridoLigero, String cilindraje, int numPasajeros,
 			int numPuertas, boolean tieneAireAcondicionado, boolean tieneCamReversa, int numBolsasAire,
 			boolean tieneABS, TransmisionVehiculo transmisionVehiculo) {
-		super(codigo, marca, condicionVehiculo, modelo, cambios, velocidadMax, tipoVehiculo, minAutinomia,
+		super(codigo, precio, marca, condicionVehiculo, modelo, cambios, velocidadMax, tipoVehiculo, minAutinomia,
 				minCarga, esEnchufable, esHibridoLigero);
 		this.cilindraje = cilindraje;
 		this.numPasajeros = numPasajeros;
