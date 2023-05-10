@@ -24,6 +24,7 @@ public abstract class Vehiculo {
 			boolean esHibridoLigero) {
 		super();
 		this.codigo = codigo;
+		this.precio = precio;
 		this.marca = marca;
 		this.condicionVehiculo = condicionVehiculo;
 		this.modelo = modelo;

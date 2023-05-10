@@ -4,16 +4,18 @@ public class Transaccion {
 
 	//protected double total;
 	protected String fecha;
+	protected TipoTransaccion tipoTransaccion;
 	protected Vehiculo vehiculoTransaccion;
 	protected Empleado empleadoTransaccion;
 	protected Cliente clienteTransaccion;
 
 
 
-	public Transaccion(String fecha, Vehiculo vehiculoTransaccion, Empleado empleadoTransaccion,
+	public Transaccion(String fecha, TipoTransaccion tipoTransaccion, Vehiculo vehiculoTransaccion, Empleado empleadoTransaccion,
 			Cliente clienteTransaccion) {
 		super();
 		this.fecha = fecha;
+		this.tipoTransaccion = tipoTransaccion;
 		this.vehiculoTransaccion = vehiculoTransaccion;
 		this.empleadoTransaccion = empleadoTransaccion;
 		this.clienteTransaccion = clienteTransaccion;
@@ -54,6 +56,15 @@ public class Transaccion {
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
+
+	public TipoTransaccion getTipoTransaccion() {
+		return tipoTransaccion;
+	}
+
+	public void setTipoTransaccion(TipoTransaccion tipoTransaccion) {
+		this.tipoTransaccion = tipoTransaccion;
+	}
+
 
 
 //-----------------------------------------------------------------------------------------------------------------------

@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.net.httpserver.Filter;
+
 import demoConcesionarioCarroUq.exceptions.EmpleadoNoRegistradoException;
 import demoConcesionarioCarroUq.exceptions.EmpleadoYaExistenteException;
 import demoConcesionarioCarroUq.model.Administrador;
@@ -12,6 +14,7 @@ import demoConcesionarioCarroUq.model.Concesionario;
 import demoConcesionarioCarroUq.model.CondicionVehiculo;
 import demoConcesionarioCarroUq.model.Empleado;
 import demoConcesionarioCarroUq.model.Moto;
+import demoConcesionarioCarroUq.model.TipoTransaccion;
 import demoConcesionarioCarroUq.model.TipoVehiculo;
 import demoConcesionarioCarroUq.model.Transaccion;
 import demoConcesionarioCarroUq.model.TransmisionVehiculo;
@@ -59,8 +62,8 @@ public class ModelFactoryController {
 		Cliente cliente2 = new Cliente("Andres", "Garcia", "1023456", empleado2);
 		Van vehiculo1 = new Van("123-Van", "10000000", "Reanult", CondicionVehiculo.NUEVO, "2020", 5, 200, TipoVehiculo.GASOLINA, 0, 0, false, false, "1206", 8, 4, true, true, 2, true, TransmisionVehiculo.MANUAL, 20);
 		Moto vehiculo2 = new Moto("321-Moto", "2000000", "kawasaki", CondicionVehiculo.USADO, "2021", 5, 260, TipoVehiculo.DIESEL, 0, 0, false, false, "350");
-		Transaccion transaccion1 = new Transaccion("6/05/2023", vehiculo1, empleado1, cliente1);
-		Transaccion transaccion2 = new Transaccion("10/05/2023", vehiculo2, empleado2, cliente2);
+		Transaccion transaccion1 = new Transaccion("6/05/2023", TipoTransaccion.VENTA, vehiculo1, empleado1, cliente1);
+		Transaccion transaccion2 = new Transaccion("10/05/2023", TipoTransaccion.COMPRA, vehiculo2, empleado2, cliente2);
 		concesionario.getListaTransacciones().add(transaccion1);
 		concesionario.getListaTransacciones().add(transaccion2);
 	}
@@ -173,5 +176,7 @@ public class ModelFactoryController {
 		ArrayList<Transaccion> listaDatosTransacciones = concesionario.getListaDatosTransacciones(fechaInicial, fechaFinal);
 		return listaDatosTransacciones;
 	}
+
+
 
 }

@@ -12,6 +12,7 @@ import demoConcesionarioCarroUq.exceptions.EmpleadoYaExistenteException;
 import demoConcesionarioCarroUq.model.Administrador;
 import demoConcesionarioCarroUq.model.Empleado;
 import demoConcesionarioCarroUq.model.Transaccion;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -121,6 +122,9 @@ public class FuncionalidadAdministradorController implements Initializable{
     @FXML
     private TableColumn<Transaccion, String> columnFechaReportes;
 
+    @FXML
+    private TableColumn<Transaccion, String> columnTransaccionReportes;
+
     //Creo las variables de fecha incial y fecha final
     private String fechaInicial;
     private String fechaFinal;
@@ -162,11 +166,18 @@ public class FuncionalidadAdministradorController implements Initializable{
 		});
 
 		//Datos en la tableView de transacciones
-		this.columnEmpleadoReportes.setCellValueFactory(new PropertyValueFactory<>("empleadoTransaccion"));
+		/*this.columnEmpleadoReportes.setCellValueFactory(new PropertyValueFactory<>("empleadoTransaccion"));
 		this.columnIdentificacionClientesRepotes.setCellValueFactory(new PropertyValueFactory<>("clienteTransaccion"));
 		this.columnCodigoVehiculoReportes.setCellValueFactory(new PropertyValueFactory<>("vehiculoTransaccion"));
 		this.columnTotalReportes.setCellValueFactory(new PropertyValueFactory<>("precio"));
-		this.columnFechaReportes.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+		this.columnFechaReportes.setCellValueFactory(new PropertyValueFactory<>("fecha"));*/
+
+		this.columnEmpleadoReportes.setCellValueFactory(e -> new ReadOnlyStringWrapper(e.getValue().getEmpleadoTransaccion().getUsuario()));
+		this.columnIdentificacionClientesRepotes.setCellValueFactory(e -> new ReadOnlyStringWrapper(e.getValue().getClienteTransaccion().getIdentificacion()));
+		this.columnCodigoVehiculoReportes.setCellValueFactory(e -> new ReadOnlyStringWrapper(e.getValue().getVehiculoTransaccion().getCodigo()));
+		this.columnTotalReportes.setCellValueFactory(e -> new ReadOnlyStringWrapper(e.getValue().getVehiculoTransaccion().getPrecio()));
+		this.columnFechaReportes.setCellValueFactory(e -> new ReadOnlyStringWrapper(e.getValue().getFecha()));
+		this.columnTransaccionReportes.setCellValueFactory(e -> new ReadOnlyStringWrapper(e.getValue().getTipoTransaccion().toString()));
 
 		//Para poder obtener la fecha inicial
 		dateInicialReportes.setOnAction(event -> {

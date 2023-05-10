@@ -5,9 +5,9 @@ public class Alquiler extends Transaccion{
 	private int diasAlquiler;
 	//private String fecha;
 
-	public Alquiler(double total, Vehiculo vehiculoTransaccion, Empleado empleadoTransaccion,
+	public Alquiler(double total, TipoTransaccion tipoTransaccion, Vehiculo vehiculoTransaccion, Empleado empleadoTransaccion,
 			Cliente clienteTransaccion, int diasAlquiler, String fecha) {
-		super(fecha, vehiculoTransaccion, empleadoTransaccion, clienteTransaccion);
+		super(fecha, tipoTransaccion, vehiculoTransaccion, empleadoTransaccion, clienteTransaccion);
 		this.diasAlquiler = diasAlquiler;
 	}
 
